@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff1ea">
+<title>Ciao Laura ✨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff1ea; --paper:#fffdfb; --ink:#2b1d1a; --muted:#9a8378;
+    --pink:#ff6b8b; --coral:#ff8f5a; --yellow:#ffc94a; --line:#f3e3da;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;min-height:100%}
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 10% 8%,#ffd9c7 0,transparent 38%),
+      radial-gradient(circle at 92% 92%,#ffd0dc 0,transparent 42%);
+    color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;
+    display:flex;justify-content:center;padding:26px 16px 60px;overflow-x:hidden;
+  }
+  .floaty{position:fixed;font-size:22px;opacity:.35;pointer-events:none;animation:float 9s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-18px) rotate(8deg)}}
+  .card{
+    width:100%;max-width:520px;background:var(--paper);border-radius:28px;position:relative;
+    box-shadow:0 22px 60px -24px rgba(160,60,40,.35);padding:26px 24px 24px;z-index:1;
+  }
+  .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}
+  .dots{display:flex;gap:6px}
+  .dots i{width:8px;height:8px;border-radius:50%;background:var(--line);transition:all .3s}
+  .dots i.on{background:var(--pink);width:22px;border-radius:6px}
+  h1,h2{font-family:"Fraunces",serif;line-height:1.08;margin:0 0 12px}
+  h1{font-size:38px;font-weight:800}
+  h1 em{font-style:italic;font-weight:500;color:var(--pink)}
+  h2{font-size:27px;font-weight:800}
+  p{line-height:1.55;margin:0 0 14px}
+  .sub{color:var(--muted);font-size:14.5px}
+  .step{display:none;margin-top:20px;animation:in .4s ease}
+  .step.on{display:block}
+  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .q{font-weight:700;margin:20px 0 8px;font-size:15px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:10px 14px;
+    font:inherit;font-size:14px;cursor:pointer;color:var(--ink);transition:all .15s;text-align:left
+  }
+  .chip:hover{border-color:var(--coral)}
+  .chip.sel{background:var(--ink);color:#fff;border-color:var(--ink);transform:scale(1.03)}
+  .chip small{display:block;font-size:11.5px;opacity:.65;margin-top:2px}
+  .day{min-width:66px;text-align:center}
+  .btns{display:flex;gap:10px;margin-top:26px;align-items:center}
+  .btn{
+    border:0;border-radius:16px;padding:14px 22px;font:inherit;font-weight:700;font-size:15.5px;cursor:pointer;
+    background:linear-gradient(135deg,var(--pink),var(--coral));color:#fff;transition:transform .15s,opacity .2s;
+    text-decoration:none;display:inline-block;text-align:center;box-shadow:0 8px 20px -10px rgba(255,107,139,.8)
+  }
+  .btn:active{transform:scale(.96)}
+  .btn.ghost{background:transparent;color:var(--muted);font-weight:500;box-shadow:none;padding-left:4px}
+  .btn[disabled]{opacity:.35;cursor:not-allowed}
+  .grow{flex:1}
+  .arena{position:relative;height:210px;margin-top:10px}
+  #yesBtn{position:absolute;left:0;top:10px;font-size:18px;transition:transform .3s ease}
+  #noBtn{
+    position:absolute;left:190px;top:10px;font-size:18px;background:#fff;color:var(--ink);
+    border:1.5px solid var(--line);box-shadow:none;transition:left .22s ease,top .22s ease,transform .3s;
+    user-select:none;touch-action:none
+  }
+  .hint{font-size:13.5px;color:var(--pink);min-height:20px;font-weight:500}
+  input[type=range]{width:100%;accent-color:var(--pink)}
+  .rangeLabel{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+  .bigval{font-family:"Fraunces",serif;font-size:21px;text-align:center;margin:4px 0 8px}
+  textarea{width:100%;min-height:100px;border:1.5px solid var(--line);border-radius:16px;padding:13px;font:inherit;resize:vertical;background:#fff}
+  textarea:focus{outline:none;border-color:var(--coral)}
+  .note{
+    margin-top:20px;padding:14px 16px;background:#fff4f6;border-radius:16px;font-size:14px;border:1.5px dashed #ffc2cf
+  }
+  .center{text-align:center}
+  .emoji-big{font-size:60px;margin:6px 0 8px}
+  .stack{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+  .tiny{font-size:12.5px;color:var(--muted);text-align:center;margin-top:10px}
+  .confetti{position:fixed;top:-24px;font-size:22px;pointer-events:none;animation:fall linear forwards;z-index:9}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+  .heart{display:inline-block;animation:beat 1.2s ease-in-out infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}}
+  textarea{font-size:16px}
+  .btn,.chip{min-height:44px}
+  body{padding-top:max(26px,env(safe-area-inset-top));padding-bottom:max(60px,env(safe-area-inset-bottom))}
+  @media (max-width:480px){
+    body{padding-left:12px;padding-right:12px}
+    .card{padding:22px 18px 20px;border-radius:24px}
+    h1{font-size:33px} h2{font-size:24px}
+    .arena{height:260px}
+    .chip{font-size:14px;padding:10px 12px}
+    .btns .btn:not(.ghost){flex:1}
+    .floaty{font-size:18px}
+  }
+  .sending{display:inline-block;animation:fly 1s ease-in-out infinite}
+  @keyframes fly{50%{transform:translate(6px,-6px) rotate(-8deg)}}
+</style>
+</head>
+<body>
+<span class="floaty" style="left:6%;top:12%">💌</span>
+<span class="floaty" style="right:7%;top:22%;animation-delay:-3s">✨</span>
+<span class="floaty" style="left:9%;bottom:14%;animation-delay:-5s">🌙</span>
+<span class="floaty" style="right:10%;bottom:9%;animation-delay:-1s">🍹</span>
+
+<main class="card">
+  <div class="top"><span id="lbl">per Laura</span><div class="dots" id="dots"></div></div>
+
+  <!-- 0 · Ciao -->
+  <section class="step on" data-step="0">
+    <h1>Ciao <em>Laura</em> <span class="heart">✨</span></h1>
+    <p>Avevo due opzioni: mandarti un normalissimo messaggio, oppure costruirti un sito intero.</p>
+    <p>Ho scelto la seconda, ovviamente.</p>
+    <p class="sub">Sono poche domande, ci metti un minuto. Le risposte sbagliate non esistono… quasi.</p>
+    <div class="btns"><button class="btn" data-next>Ok, vediamo 👀</button></div>
+  </section>
+
+  <!-- 1 · La domanda -->
+  <section class="step" data-step="1">
+    <h2>Partiamo dalla domanda importante.</h2>
+    <p>Ti va di uscire con me?</p>
+    <div class="arena" id="arena">
+      <button class="btn" id="yesBtn">Sì 💛</button>
+      <button class="btn" id="noBtn" tabindex="-1">No</button>
+    </div>
+    <div class="hint" id="noHint"></div>
+  </section>
+
+  <!-- 2 · Tipo -->
+  <section class="step" data-step="2">
+    <h2>Evvai. Cosa facciamo?</h2>
+    <p class="sub">Puoi sceglierne quante vuoi. Io sono d'accordo su tutto in anticipo.</p>
+    <div class="chips" data-group="tipo" data-multi>
+      <button class="chip" data-val="Aperitivo">🍹 Aperitivo<small>classico ma vincente</small></button>
+      <button class="chip" data-val="Cena">🍝 Cena<small>prometto di non ordinare per due</small></button>
+      <button class="chip" data-val="Caffè o gelato">🍦 Caffè o gelato<small>versione soft</small></button>
+      <button class="chip" data-val="Passeggiata">🌙 Passeggiata<small>e chiacchiere a caso</small></button>
+      <button class="chip" data-val="Concerto / serata">🎧 Concerto o serata<small>la musica la scelgo io, ok?</small></button>
+      <button class="chip" data-val="Cinema">🍿 Cinema<small>i popcorn li tengo io</small></button>
+      <button class="chip" data-val="Viaggio">✈️ Viaggio<small>partiamo subito ambiziosi</small></button>
+      <button class="chip" data-val="Sorprendimi">🎁 Sorprendimi<small>coraggiosa</small></button>
+    </div>
+    <div class="btns"><button class="btn ghost" data-prev>← indietro</button><span class="grow"></span><button class="btn" data-next data-need="tipo">Avanti →</button></div>
+  </section>
+
+  <!-- 3 · Quando -->
+  <section class="step" data-step="3">
+    <h2>Quando sei libera?</h2>
+    <p class="sub">Segna tutti i giorni che vanno bene. Più ne segni, più divento contento.</p>
+    <div class="chips" id="days" data-group="giorni" data-multi></div>
+    <div class="q">E a che ora più o meno?</div>
+    <div class="chips" data-group="fascia" data-multi>
+      <button class="chip" data-val="Pranzo">☀️ Pranzo</button>
+      <button class="chip" data-val="Pomeriggio">🌤 Pomeriggio</button>
+      <button class="chip" data-val="Ora dell'aperitivo">🌅 Ora dell'aperitivo</button>
+      <button class="chip" data-val="Sera">🌙 Sera</button>
+      <button class="chip" data-val="Notte fonda">🪩 Notte fonda<small>solo se c'è buona musica</small></button>
+    </div>
+    <div class="btns"><button class="btn ghost" data-prev>← indietro</button><span class="grow"></span><button class="btn" data-next data-need="giorni">Avanti →</button></div>
+  </section>
+
+  <!-- 4 · Dettagli -->
+  <section class="step" data-step="4">
+    <h2>Un paio di dettagli</h2>
+    <div class="q">Come ci organizziamo?</div>
+    <div class="chips" data-group="logistica">
+      <button class="chip" data-val="Passami a prendere">🚗 Passami a prendere</button>
+      <button class="chip" data-val="Ci vediamo lì">📍 Ci vediamo lì</button>
+      <button class="chip" data-val="Decidiamo dopo">🤷‍♀️ Decidiamo dopo</button>
+    </div>
+    <div class="q">Livello di fame previsto</div>
+    <div class="bigval" id="fameVal">5/10 · fame da aperitivo</div>
+    <input type="range" min="0" max="10" value="5" id="fame">
+    <div class="rangeLabel"><span>sono a posto così</span><span>mangerei anche il tavolo</span></div>
+
+    <div class="q">Cosa NON deve assolutamente succedere?</div>
+    <div class="chips" data-group="evitare" data-multi>
+      <button class="chip" data-val="Che ordini la cosa più buona e non me la fai assaggiare">🍟 Che ordini la cosa più buona e non me la fai assaggiare</button>
+      <button class="chip" data-val="Che parli 40 minuti di casse e mixer">🔊 Che ti parli 40 minuti di casse e mixer</button>
+      <button class="chip" data-val="Che ci becchi la pioggia senza ombrello">🌧 Che ci becchi la pioggia senza ombrello<small>(o forse sì)</small></button>
+      <button class="chip" data-val="Che io arrivi in ritardo">⏰ Che io arrivi in ritardo</button>
+      <button class="chip" data-val="Che si litighi per l'ultima patatina">🥔 Che si litighi per l'ultima patatina</button>
+      <button class="chip" data-val="Che finisca troppo presto">🕰 Che finisca troppo presto</button>
+    </div>
+    <div class="btns"><button class="btn ghost" data-prev>← indietro</button><span class="grow"></span><button class="btn" data-next>Avanti →</button></div>
+  </section>
+
+  <!-- 5 · Messaggio -->
+  <section class="step" data-step="5">
+    <h2>Ultima cosa</h2>
+    <div class="q">Vuoi dirmi qualcosa?</div>
+    <textarea id="msg" placeholder="Anche solo un “era ora” va benissimo 😌"></textarea>
+    <div class="note">
+      <b>Piccola nota a margine:</b> questo sito ha un solo utente in tutto il mondo.<br>Sei tu. 💛
+    </div>
+    <div class="btns"><button class="btn ghost" data-prev>← indietro</button><span class="grow"></span><button class="btn" id="sendBtn">Invia a Filippo 💌</button></div>
+    <p class="tiny" id="sendErr"></p>
+  </section>
+
+  <!-- 6 · Fatto -->
+  <section class="step" data-step="6">
+    <div class="center"><div class="emoji-big">💌</div></div>
+    <h2 class="center">Consegnato!</h2>
+    <p class="center">In questo momento Filippo sta probabilmente sorridendo al telefono come uno scemo.</p>
+    <p class="center sub">Ti scrivo presto. Anzi, prestissimo.</p>
+  </section>
+</main>
+
+<script>
+/* ============ CONFIG ============ */
+const EMAIL = "roca.filippo1999@gmail.com";   // dove arrivano le risposte
+/* ================================ */
+
+const state = { tipo:[], giorni:[], fascia:[], logistica:[], evitare:[] };
+const steps = [...document.querySelectorAll(".step")];
+const dots = document.getElementById("dots");
+steps.slice(0,6).forEach(()=>dots.appendChild(document.createElement("i")));
+let cur = 0;
+
+function show(n){
+  steps.forEach(s=>s.classList.toggle("on", +s.dataset.step===n));
+  cur = n;
+  [...dots.children].forEach((d,i)=>d.classList.toggle("on", i===Math.min(n,5)));
+  if(n===1) resetNo();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-next]").forEach(b=>b.addEventListener("click",()=>show(cur+1)));
+document.querySelectorAll("[data-prev]").forEach(b=>b.addEventListener("click",()=>show(cur-1)));
+
+/* ---- chips ---- */
+function refreshNeeds(){ document.querySelectorAll("[data-need]").forEach(b=>b.disabled = state[b.dataset.need].length===0); }
+function wire(g){
+  const key=g.dataset.group, multi=g.hasAttribute("data-multi");
+  g.addEventListener("click",e=>{
+    const c=e.target.closest(".chip"); if(!c) return;
+    const v=c.dataset.val;
+    if(multi){
+      c.classList.toggle("sel");
+      state[key] = c.classList.contains("sel") ? [...state[key],v] : state[key].filter(x=>x!==v);
+    } else {
+      g.querySelectorAll(".chip").forEach(o=>o.classList.remove("sel"));
+      c.classList.add("sel"); state[key]=[v];
+    }
+    refreshNeeds();
+  });
+}
+(function days(){
+  const box=document.getElementById("days");
+  const gg=["dom","lun","mar","mer","gio","ven","sab"], mm=["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
+  const t=new Date();
+  for(let i=1;i<=14;i++){
+    const x=new Date(t); x.setDate(t.getDate()+i);
+    const b=document.createElement("button"); b.className="chip day";
+    b.dataset.val=`${gg[x.getDay()]} ${x.getDate()} ${mm[x.getMonth()]}`;
+    b.innerHTML=`${gg[x.getDay()]}<small>${x.getDate()} ${mm[x.getMonth()]}</small>`;
+    box.appendChild(b);
+  }
+})();
+document.querySelectorAll("[data-group]").forEach(wire);
+refreshNeeds();
+
+/* ---- Sì / No imprendibile ---- */
+const noBtn=document.getElementById("noBtn"), yesBtn=document.getElementById("yesBtn"), arena=document.getElementById("arena"), hint=document.getElementById("noHint");
+const lines=[
+  "Eh no 😜","Troppo lenta!","Ci hai provato","Il No è in pausa caffè ☕","Questo bottone non è disponibile nella tua zona",
+  "Errore 404: No non trovato","Il No ha appena dato le dimissioni","Prova col Sì, è lì di fianco 👈","Sei testarda eh 😄",
+  "Ok, ammiro l'impegno","Il No è andato in vacanza ✈️","Ultima offerta: Sì?"
+];
+const noLabels=["No","Sicura?","Davvero?","Ripensaci","Pensaci bene","Ma dai","Nooo","Uff","…"];
+let tries=0, yesScale=1;
+function resetNo(){
+  tries=0; yesScale=1; yesBtn.style.transform=""; noBtn.style.transform="";
+  noBtn.textContent="No"; hint.textContent="";
+  noBtn.style.left=Math.min(arena.clientWidth-noBtn.offsetWidth, 190)+"px"; noBtn.style.top="10px";
+}
+let lastFlee=0;
+function flee(e){
+  if(e){ e.preventDefault(); e.stopPropagation(); }
+  const now=Date.now(); if(now-lastFlee<180) return; lastFlee=now;
+  const W=arena.clientWidth, H=arena.clientHeight;
+  const bw=noBtn.offsetWidth, bh=noBtn.offsetHeight;
+  const yr=yesBtn.getBoundingClientRect(), ar=arena.getBoundingClientRect();
+  const nr=noBtn.getBoundingClientRect();
+  let x,y,guard=0;
+  do{
+    x=Math.random()*(W-bw); y=Math.random()*(H-bh); guard++;
+  }while(guard<50 && (
+    (x < yr.right-ar.left+12 && x+bw > yr.left-ar.left-12 && y < yr.bottom-ar.top+12 && y+bh > yr.top-ar.top-12) ||
+    Math.hypot(x-(nr.left-ar.left), y-(nr.top-ar.top)) < 90
+  ));
+  noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
+  hint.textContent=lines[tries%lines.length];
+  noBtn.textContent=noLabels[Math.min(tries+1,noLabels.length-1)];
+  tries++;
+  yesScale=Math.min(1+tries*0.08,1.7);
+  yesBtn.style.transform=`scale(${yesScale})`; yesBtn.style.transformOrigin="left top";
+  noBtn.style.transform=`scale(${Math.max(1-tries*0.05,0.6)})`;
+}
+// scappa appena il dito/mouse si avvicina, prima del click
+noBtn.addEventListener("pointerenter",flee);
+noBtn.addEventListener("pointerdown",flee);
+noBtn.addEventListener("touchstart",flee,{passive:false});
+noBtn.addEventListener("mousedown",flee);
+noBtn.addEventListener("click",e=>{ e.preventDefault(); flee(); hint.textContent="Ho letto Sì 😌"; setTimeout(sayYes,700); });
+noBtn.addEventListener("focus",()=>noBtn.blur());
+arena.addEventListener("pointermove",e=>{
+  const r=noBtn.getBoundingClientRect();
+  const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  if(e.pointerType==="mouse" && Math.hypot(e.clientX-cx,e.clientY-cy)<70) flee();
+});
+function sayYes(){ confetti(); setTimeout(()=>show(2),600); }
+yesBtn.addEventListener("click",sayYes);
+
+function confetti(){
+  const set=["💛","✨","🎉","💖","🥂","🌸"];
+  for(let i=0;i<40;i++){
+    const s=document.createElement("span"); s.className="confetti";
+    s.textContent=set[i%set.length]; s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(1.6+Math.random()*1.8)+"s"; s.style.animationDelay=(Math.random()*.4)+"s";
+    document.body.appendChild(s); setTimeout(()=>s.remove(),4200);
+  }
+}
+
+/* ---- fame ---- */
+const fameTxt=["sono a posto così","un grissino","uno spuntino","qualcosa ci sta","fame onesta","fame da aperitivo","fame vera","fame seria","fame da cena lunga","fame da tutto il menù","mangerei anche il tavolo"];
+const fame=document.getElementById("fame");
+fame.addEventListener("input",()=>document.getElementById("fameVal").textContent=`${fame.value}/10 · ${fameTxt[fame.value]}`);
+
+/* ---- invio ---- */
+function L(a){ return a.length ? a.join(", ") : "—"; }
+function payload(){
+  return {
+    "Ti va di uscire": "Sì 💛 (il No non l'ha mai preso" + (tries?`, ci ha provato ${tries} volte`:"") + ")",
+    "Cosa facciamo": L(state.tipo),
+    "Giorni": L(state.giorni),
+    "Orario": L(state.fascia),
+    "Logistica": L(state.logistica),
+    "Fame prevista": `${fame.value}/10 (${fameTxt[fame.value]})`,
+    "Da evitare assolutamente": L(state.evitare),
+    "Messaggio": document.getElementById("msg").value.trim() || "—"
+  };
+}
+document.getElementById("sendBtn").addEventListener("click",async ()=>{
+  const b=document.getElementById("sendBtn"), err=document.getElementById("sendErr");
+  b.disabled=true; b.innerHTML='Invio in corso <span class="sending">💌</span>'; err.textContent="";
+  try{
+    const res=await fetch("https://formsubmit.co/ajax/"+EMAIL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({ _subject:"💌 Laura ha risposto!", _template:"table", _captcha:"false", ...payload() })
+    });
+    const j=await res.json().catch(()=>({}));
+    if(!res.ok || j.success==="false" || j.success===false) throw new Error(j.message||res.status);
+    confetti(); show(6);
+  }catch(e){
+    b.disabled=false; b.textContent="Riprova 💌";
+    err.textContent="Il postino è inciampato 🙈 riprova tra un attimo.";
+  }
+});
+
+show(0);
+</script>
+</body>
+</html>
