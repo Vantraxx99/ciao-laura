@@ -113,9 +113,9 @@
   <!-- 0 · Ciao -->
   <section class="step on" data-step="0">
     <h1>Ciao <em>Laura</em> <span class="heart">✨</span></h1>
-    <p>Avevo due opzioni: mandarti un normalissimo messaggio, oppure costruirti un sito intero.</p>
-    <p>Ho scelto la seconda, ovviamente.</p>
-    <p class="sub">Sono poche domande, ci metti un minuto. Le risposte sbagliate non esistono… quasi.</p>
+    <p>Visto che ai miei messaggi rispondi una volta ogni tre giorni (quando va bene), ho deciso di cambiare strategia.</p>
+    <p>Ti ho fatto un sito. <b>Qui almeno non puoi lasciarmi in visualizzato</b> 😌</p>
+    <p class="sub">Sono poche domande, ci metti meno che a rispondere a un mio messaggio. Le risposte sbagliate non esistono… quasi.</p>
     <div class="btns"><button class="btn" data-next>Ok, vediamo 👀</button></div>
   </section>
 
@@ -180,11 +180,11 @@
     <div class="q">Cosa NON deve assolutamente succedere?</div>
     <div class="chips" data-group="evitare" data-multi>
       <button class="chip" data-val="Che ordini la cosa più buona e non me la fai assaggiare">🍟 Che ordini la cosa più buona e non me la fai assaggiare</button>
-      <button class="chip" data-val="Che parli 40 minuti di casse e mixer">🔊 Che ti parli 40 minuti di casse e mixer</button>
-      <button class="chip" data-val="Che ci becchi la pioggia senza ombrello">🌧 Che ci becchi la pioggia senza ombrello<small>(o forse sì)</small></button>
-      <button class="chip" data-val="Che io arrivi in ritardo">⏰ Che io arrivi in ritardo</button>
-      <button class="chip" data-val="Che si litighi per l'ultima patatina">🥔 Che si litighi per l'ultima patatina</button>
-      <button class="chip" data-val="Che finisca troppo presto">🕰 Che finisca troppo presto</button>
+      <button class="chip" data-val="Che mi lasci in visualizzato anche dal vivo">📱 Che mi lasci in visualizzato anche dal vivo</button>
+      <button class="chip" data-val="Che ci perdiamo perché ho detto 'so io la strada'">🗺 Che ci perdiamo perché ho detto “so io la strada”</button>
+      <button class="chip" data-val="Che mi trascini a ballare prima del secondo drink">💃 Che mi trascini a ballare prima del secondo drink</button>
+      <button class="chip" data-val="Che a mezzanotte scappi via tipo Cenerentola">👠 Che a mezzanotte scappi via tipo Cenerentola</button>
+      <button class="chip" data-val="Che finisca senza dirci quando ci rivediamo">🔁 Che finisca senza dirci quando ci rivediamo</button>
     </div>
     <div class="btns"><button class="btn ghost" data-prev>← indietro</button><span class="grow"></span><button class="btn" data-next>Avanti →</button></div>
   </section>
@@ -270,7 +270,6 @@ const lines=[
   "Errore 404: No non trovato","Il No ha appena dato le dimissioni","Prova col Sì, è lì di fianco 👈","Sei testarda eh 😄",
   "Ok, ammiro l'impegno","Il No è andato in vacanza ✈️","Ultima offerta: Sì?"
 ];
-const noLabels=["No","Sicura?","Davvero?","Ripensaci","Pensaci bene","Ma dai","Nooo","Uff","…"];
 let tries=0, yesScale=1;
 function resetNo(){
   tries=0; yesScale=1; yesBtn.style.transform=""; noBtn.style.transform="";
@@ -294,7 +293,6 @@ function flee(e){
   ));
   noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
   hint.textContent=lines[tries%lines.length];
-  noBtn.textContent=noLabels[Math.min(tries+1,noLabels.length-1)];
   tries++;
   yesScale=Math.min(1+tries*0.08,1.7);
   yesBtn.style.transform=`scale(${yesScale})`; yesBtn.style.transformOrigin="left top";
