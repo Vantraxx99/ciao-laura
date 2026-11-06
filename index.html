@@ -180,11 +180,11 @@
     <div class="q">Cosa NON deve assolutamente succedere?</div>
     <div class="chips" data-group="evitare" data-multi>
       <button class="chip" data-val="Che ordini la cosa più buona e non me la fai assaggiare">🍟 Che ordini la cosa più buona e non me la fai assaggiare</button>
-      <button class="chip" data-val="Che mi lasci in visualizzato anche dal vivo">📱 Che mi lasci in visualizzato anche dal vivo</button>
-      <button class="chip" data-val="Che ci perdiamo perché ho detto 'so io la strada'">🗺 Che ci perdiamo perché ho detto “so io la strada”</button>
-      <button class="chip" data-val="Che mi trascini a ballare prima del secondo drink">💃 Che mi trascini a ballare prima del secondo drink</button>
-      <button class="chip" data-val="Che a mezzanotte scappi via tipo Cenerentola">👠 Che a mezzanotte scappi via tipo Cenerentola</button>
-      <button class="chip" data-val="Che finisca senza dirci quando ci rivediamo">🔁 Che finisca senza dirci quando ci rivediamo</button>
+      <button class="chip" data-val="Che il telefono sia più interessante di me">📵 Che il telefono sia più interessante di me</button>
+      <button class="chip" data-val="Che io faccia una battuta pessima">🙈 Che io faccia una battuta pessima<small>ok, questa è garantita</small></button>
+      <button class="chip" data-val="Che la serata finisca troppo presto">🌙 Che la serata finisca troppo presto</button>
+      <button class="chip" data-val="Che non smetti di sorridere tutta la sera">😊 Che non smetti di sorridere tutta la sera<small>anzi no, questo sì</small></button>
+      <button class="chip" data-val="Che poi ti tocchi uscire con me anche la volta dopo">💘 Che poi ti tocchi uscire con me anche la volta dopo</button>
     </div>
     <div class="btns"><button class="btn ghost" data-prev>← indietro</button><span class="grow"></span><button class="btn" data-next>Avanti →</button></div>
   </section>
@@ -212,7 +212,7 @@
 
 <script>
 /* ============ CONFIG ============ */
-const EMAIL = "roca.filippo1999@gmail.com";   // dove arrivano le risposte
+const TOPIC = "pratica-laura-772cd17d5064";   // canale ntfy dove arrivano le risposte
 /* ================================ */
 
 const state = { tipo:[], giorni:[], fascia:[], logistica:[], evitare:[] };
@@ -346,13 +346,10 @@ document.getElementById("sendBtn").addEventListener("click",async ()=>{
   const b=document.getElementById("sendBtn"), err=document.getElementById("sendErr");
   b.disabled=true; b.innerHTML='Invio in corso <span class="sending">💌</span>'; err.textContent="";
   try{
-    const res=await fetch("https://formsubmit.co/ajax/"+EMAIL,{
-      method:"POST",
-      headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify({ _subject:"💌 Laura ha risposto!", _template:"table", _captcha:"false", ...payload() })
-    });
-    const j=await res.json().catch(()=>({}));
-    if(!res.ok || j.success==="false" || j.success===false) throw new Error(j.message||res.status);
+    const p=payload();
+    const body=Object.entries(p).map(([k,v])=>k+": "+v).join("\n");
+    const res=await fetch("https://ntfy.sh/"+TOPIC,{method:"POST",headers:{"Title":"Laura ha risposto!","Tags":"love_letter","Priority":"5"},body});
+    if(!res.ok) throw new Error(res.status);
     confetti(); show(6);
   }catch(e){
     b.disabled=false; b.textContent="Riprova 💌";
