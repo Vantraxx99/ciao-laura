@@ -62,11 +62,11 @@
   .btn[disabled]{opacity:.35;cursor:not-allowed}
   .grow{flex:1}
   .arena{position:relative;height:210px;margin-top:10px}
-  #yesBtn{position:absolute;left:0;top:10px;font-size:18px;transition:transform .3s ease}
+  #yesBtn{position:absolute;left:0;top:10px;z-index:1;font-size:18px;transition:transform .3s ease}
   #noBtn{
     position:absolute;left:190px;top:10px;font-size:18px;background:#fff;color:var(--ink);
     border:1.5px solid var(--line);box-shadow:none;transition:left .22s ease,top .22s ease,transform .3s;
-    user-select:none;touch-action:none
+    user-select:none;touch-action:none;z-index:3
   }
   .hint{font-size:13.5px;color:var(--pink);min-height:20px;font-weight:500}
   input[type=range]{width:100%;accent-color:var(--pink)}
@@ -280,6 +280,8 @@ let lastFlee=0;
 function flee(e){
   if(e){ e.preventDefault(); e.stopPropagation(); }
   const now=Date.now(); if(now-lastFlee<180) return; lastFlee=now;
+  yesScale=Math.min(1+(tries+1)*0.06,1.35);
+  yesBtn.style.transform=`scale(${yesScale})`; yesBtn.style.transformOrigin="left top";
   const W=arena.clientWidth, H=arena.clientHeight;
   const bw=noBtn.offsetWidth, bh=noBtn.offsetHeight;
   const yr=yesBtn.getBoundingClientRect(), ar=arena.getBoundingClientRect();
@@ -287,15 +289,13 @@ function flee(e){
   let x,y,guard=0;
   do{
     x=Math.random()*(W-bw); y=Math.random()*(H-bh); guard++;
-  }while(guard<50 && (
-    (x < yr.right-ar.left+12 && x+bw > yr.left-ar.left-12 && y < yr.bottom-ar.top+12 && y+bh > yr.top-ar.top-12) ||
+  }while(guard<200 && (
+    (x < yr.right-ar.left+20 && x+bw > yr.left-ar.left-20 && y < yr.bottom-ar.top+20 && y+bh > yr.top-ar.top-20) ||
     Math.hypot(x-(nr.left-ar.left), y-(nr.top-ar.top)) < 90
   ));
   noBtn.style.left=x+"px"; noBtn.style.top=y+"px";
   hint.textContent=lines[tries%lines.length];
   tries++;
-  yesScale=Math.min(1+tries*0.08,1.7);
-  yesBtn.style.transform=`scale(${yesScale})`; yesBtn.style.transformOrigin="left top";
   noBtn.style.transform=`scale(${Math.max(1-tries*0.05,0.6)})`;
 }
 // scappa appena il dito/mouse si avvicina, prima del click
@@ -303,7 +303,7 @@ noBtn.addEventListener("pointerenter",flee);
 noBtn.addEventListener("pointerdown",flee);
 noBtn.addEventListener("touchstart",flee,{passive:false});
 noBtn.addEventListener("mousedown",flee);
-noBtn.addEventListener("click",e=>{ e.preventDefault(); flee(); hint.textContent="Ho letto Sì 😌"; setTimeout(sayYes,700); });
+noBtn.addEventListener("click",e=>{ e.preventDefault(); e.stopPropagation(); lastFlee=0; flee(); });
 noBtn.addEventListener("focus",()=>noBtn.blur());
 arena.addEventListener("pointermove",e=>{
   const r=noBtn.getBoundingClientRect();
